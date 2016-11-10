@@ -19,6 +19,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+      <!--other repositories if any-->
+      <repository>
+        <id>project.local</id>
+        <name>project</name>
+        <url>file:${project.basedir}/repo</url>
+      </repository>
+    </repositories>
+    
+    
     <dependencies>
         <dependency>
             <groupId>com.sparkjava</groupId>
@@ -36,6 +46,12 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>edu.vt.cs.corgis</groupId>
+            <artifactId>airlines</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
