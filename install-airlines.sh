@@ -12,3 +12,5 @@ mvn deploy:deploy-file \
    -Durl=file:`pwd`/repo -Dfile=airlines-1.0.jar -DgroupId=edu.vt.cs.corgis \
    -DartifactId=airlines -Dpackaging=jar -Dversion=1.0
 
+mvn -U initialize
+

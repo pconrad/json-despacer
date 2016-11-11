@@ -10,3 +10,16 @@ To build, use `mvn package`
 To run, use `java -jar target/spark-template-mustache-2.4-SNAPSHOT.jar`
 
 Demo on Heroku at: https://sparkjava-corgis-airlines-demo.herokuapp.com/
+
+
+# Test of Corgis ReadJson
+
+This sequence of commands:
+
+```
+./install-airlines-json.sh
+./install-airlines.sh
+mvn package
+java -cp target/original-spark-template-mustache-2.4-SNAPSHOT.jar org.pconrad.corgis.airlines.demos.ReadJson
+```
+
