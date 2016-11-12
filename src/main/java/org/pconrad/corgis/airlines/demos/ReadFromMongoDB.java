@@ -1,9 +1,14 @@
 package org.pconrad.corgis.airlines.demos;
 
+import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
+
+
+import com.mongodb.client.model.Filters;
+import static com.mongodb.client.model.Filters.eq;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -22,30 +27,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class ConnectMongoDB {
+public class ReadFromMongoDB {
     
-    public static void uploadJson(String fileName, MongoCollection<Document> collection) {
-
-	JSONParser parser = new JSONParser();
-
-	try {
-
-	    Object obj = parser.parse(new FileReader(fileName));
-
-	    for (Object o : (JSONArray) obj) {
-		JSONObject jsonObject = (JSONObject) o;
-		Document d =  Document.parse(jsonObject.toJSONString());
-		collection.insertOne(d);
-	    }
-
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	} catch (ParseException e) {
-	    e.printStackTrace();
-	}
-	
+    public static void printRecordsForAirport(String airportCode, MongoCollection<Document> collection) {
+	Block<Document> printBlock = (d) -> System.out.println(d.toJson());
+	collection.find(eq("airport.code", airportCode)).forEach( printBlock );
     }
 
 
@@ -93,10 +79,14 @@ public class ConnectMongoDB {
 	MongoClient mongoClient = new MongoClient(connectionString);
 	MongoDatabase database = mongoClient.getDatabase("corgis");
 	MongoCollection<Document> collection = database.getCollection("airlines");
+	System.out.println("collection.count=" + collection.count());
 
-	System.out.println("Before upload collection.count=" + collection.count());	
-	uploadJson("airlines.json",collection);
-	System.out.println("After upload collection.count=" + collection.count());		
+	if (args.length > 0) {
+	    String airportCode = args[0];
+	    System.out.println("Printing records with airportCode=" + airportCode);
+	    printRecordsForAirport(airportCode,collection);
+	}
+	
     }
 
 
