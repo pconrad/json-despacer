@@ -2,9 +2,8 @@ package org.pconrad.corgis.airlines.demos;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-
-import corgis.airlines.AirlinesLibrary;
-import corgis.airlines.domain.Airline;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.bson.Document;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,7 +24,7 @@ import org.json.simple.parser.ParseException;
 
 public class ConnectMongoDB {
     
-    public static void readJson(String fileName) {
+    public static void uploadJson(String fileName, MongoCollection<Document> collection) {
 
 	JSONParser parser = new JSONParser();
 
@@ -32,8 +33,9 @@ public class ConnectMongoDB {
 	    Object obj = parser.parse(new FileReader(fileName));
 
 	    for (Object o : (JSONArray) obj) {
-		Airline a = new Airline((JSONObject) o);
-		System.out.println("a=" + a);
+		JSONObject jsonObject = (JSONObject) o;
+		Document d =  Document.parse(jsonObject.toJSONString());
+		collection.insertOne(d);
 	    }
 
 	} catch (FileNotFoundException e) {
@@ -77,6 +79,7 @@ public class ConnectMongoDB {
 
     public static void main(String[] args) {
 
+	
 	HashMap<String,String> envVars =
 	    getNeededEnvVars(new String []{ "MONGO_DB_USER",
 					    "MONGO_DB_PASSWORD",
@@ -88,8 +91,12 @@ public class ConnectMongoDB {
 
 	MongoClientURI connectionString = new MongoClientURI(uriString);
 	MongoClient mongoClient = new MongoClient(connectionString);
-	
-	
+	MongoDatabase database = mongoClient.getDatabase("corgis");
+	MongoCollection<Document> collection = database.getCollection("airlines");
+
+	System.out.println("Before upload collection.count=" + collection.count());	
+	uploadJson("airlines.json",collection);
+	System.out.println("After upload collection.count=" + collection.count());		
     }
 
 

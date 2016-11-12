@@ -1,5 +1,7 @@
 package org.pconrad.corgis.airlines.demos;
 
+
+
 import corgis.airlines.AirlinesLibrary;
 import corgis.airlines.domain.Airline;
 
@@ -17,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
+
 public class ReadJson {
     
     public static void readJson(String fileName) {
@@ -28,6 +31,8 @@ public class ReadJson {
 	    Object obj = parser.parse(new FileReader(fileName));
 
 	    for (Object o : (JSONArray) obj) {
+		JSONObject jsonObject = (JSONObject) o;
+		// System.out.println(jsonObject.toJSONString());
 		Airline a = new Airline((JSONObject) o);
 		System.out.println("a=" + a);
 	    }
