@@ -1,5 +1,8 @@
 package org.pconrad.corgis.airlines.demos;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+
 import corgis.airlines.AirlinesLibrary;
 import corgis.airlines.domain.Airline;
 
@@ -78,7 +81,14 @@ public class ConnectMongoDB {
 	    getNeededEnvVars(new String []{ "MONGO_DB_USER",
 					    "MONGO_DB_PASSWORD",
 					    "MONGO_DB_URI"});
-	System.out.println("envVars.get(\"MONGO_DB_URI\")=" + envVars.get("MONGO_DB_URI"));
+
+	String uriString = envVars.get("MONGO_DB_URI")
+	    .replace("<dbuser>",envVars.get("MONGO_DB_USER"))
+	    .replace("<dbpassword>",envVars.get("MONGO_DB_PASSWORD"));
+
+	MongoClientURI connectionString = new MongoClientURI(uriString);
+	MongoClient mongoClient = new MongoClient(connectionString);
+	
 	
     }
 
