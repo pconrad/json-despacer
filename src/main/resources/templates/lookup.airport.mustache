@@ -1,0 +1,20 @@
+<!DOCTYPE html>  <!-- -*- mode: html -*- -->
+<html>
+{{>head}}
+<title></title>
+<body>
+{{>nav}}
+
+<h1>Lookup by Airport</h1>
+
+  <p>Enter an airport and click "submit" to see a list of matching records</p>
+
+  <form action="/lookup/airport/result">
+    Airport Code:<br>
+    <input type="text" name="airport_code" value="LAX">
+    <input type="submit" value="Submit">
+  </form>
+
+{{>footer}}
+</body>
+</html>

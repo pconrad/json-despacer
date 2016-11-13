@@ -1,0 +1,27 @@
+<!DOCTYPE html>  <!-- -*- mode: html -*- -->
+<html>
+{{>head}}
+<title></title>
+<body>
+{{>nav}}
+
+<h1>Lookup by Airport Result</h1>
+
+<p>Results for: {{ airport_code }} </p>
+
+<table>
+  <tr>
+    <th>airport.code</th><th>airport.name</th>
+  </tr>
+  <tr>
+    {{ #airlines }}
+    <td>{{ airport.code }}</td><td>{{ airport.name }}</td>
+    {{ /airlines }}	       
+  </tr>
+</table>
+
+<p>{{ error }}</p>
+
+{{>footer}}
+</body>
+</html>
