@@ -1,5 +1,7 @@
 package org.pconrad.corgis.airlines.demos;
 
+
+
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -26,6 +28,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.pconrad.utilities.EnvVars;
 
 public class ReadFromMongoDB {
     
@@ -36,38 +39,12 @@ public class ReadFromMongoDB {
 
 
 
-    /**
-       return a HashMap with values of all the environment variables
-       listed; print error message for each missing one, and exit if any
-       of them is not defined.
-    */
-
-    public static HashMap<String,String> getNeededEnvVars(String [] neededEnvVars) {
-	HashMap<String,String> envVars = new HashMap<String,String>();
-	
-
-	for (String k:neededEnvVars) {
-	    String v = System.getenv(k);
-	    envVars.put(k,v);
-	}
-
-	boolean error=false;
-	for (String k:neededEnvVars) {
-	    if (envVars.get(k)==null) {
-		error = true;
-		System.err.println("Error: Must define env variable " + k);
-	    }
-	}
-	if (error) { System.exit(1); }
-
-	return envVars;
-    }
 
     public static void main(String[] args) {
 
 	
 	HashMap<String,String> envVars =
-	    getNeededEnvVars(new String []{ "MONGO_DB_USER",
+	    EnvVars.getNeededEnvVars(new String []{ "MONGO_DB_USER",
 					    "MONGO_DB_PASSWORD",
 					    "MONGO_DB_URI"});
 

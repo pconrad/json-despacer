@@ -35,6 +35,8 @@ This sequence of commands:
 ./install-airlines-json.sh
 ./install-airlines.sh
 mvn package
-java -cp target/original-spark-template-mustache-2.4-SNAPSHOT.jar org.pconrad.corgis.airlines.demos.ReadJson
+java -cp target/spark-template-mustache-2.4-SNAPSHOT.jar org.pconrad.corgis.airlines.demos.ReadJson
+
+java -cp target/spark-template-mustache-2.4-SNAPSHOT.jar org.pconrad.corgis.airlines.model.AirlineDB
 ```
 
