@@ -7,18 +7,45 @@
 
 <h1>Lookup by Airport Result</h1>
 
-<p>Results for: {{ airport_code }} </p>
+<h2>Values searched for:</h2>
 
-<table>
-  <tr>
-    <th>airport.code</th><th>airport.name</th>
-  </tr>
-  <tr>
-    {{ #airlines }}
-    <td>{{ airport.code }}</td><td>{{ airport.name }}</td>
-    {{ /airlines }}	       
-  </tr>
+<div class="table-responsive">
+<table class="table-striped table-bordered">
+  <tr><th>airport_code</th><td>{{airport_code}}</td></tr>
+  <tr><th>airport_name</th><td>{{airport_name}}</td></tr>
 </table>
+</div>
+
+<h2>Results:</h2>
+
+
+<table id="results-table" class="display" cellspacing="0" width="100%">
+  <thead>
+  <tr>
+    <th>airport.code</th>
+    <th>carrier.code</th>
+    <th>carrier.name</th>
+    <th>month</th>
+    <th>on-time</th>
+    <th>total flights</th>
+    <th>on-time percentage</th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#airlines}}
+  <tr>
+    <th>{{airport.code}}</th>
+    <th>{{carrier.code}}</th>
+    <th>{{carrier.name}}</th>
+    <th>{{month}}</th>
+    <th>{{statistics.flights.onTime}}</th>
+    <th>{{statistics.flights.total}}</th>
+    <th>{{onTimePercentage}}</th>
+  </tr>
+  {{/airlines}}
+  </tbody>
+</table>
+
 
 <p>{{ error }}</p>
 

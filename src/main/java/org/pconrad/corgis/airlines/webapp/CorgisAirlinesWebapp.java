@@ -19,11 +19,13 @@ package org.pconrad.corgis.airlines.webapp;
 
 import corgis.airlines.domain.Airline;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.pconrad.corgis.airlines.model.AirlineDB;
+import org.pconrad.corgis.airlines.model.AirlinePlus;
 import org.pconrad.utilities.EnvVars;
 import org.pconrad.webapps.sparkjava.MustacheTemplateEngine;
 
@@ -79,8 +81,13 @@ public class CorgisAirlinesWebapp {
 	    {
 		Map model = new HashMap();
 		String airportCode = rq.queryParams("airport_code"); // get value from form
-		ArrayList<Airline> airlines = airlineDB.findByAirportCode(airportCode);
+		ArrayList<AirlinePlus> airlines = airlineDB.findByAirportCode(airportCode);
+		// System.out.println("airlines=" + airlines);
 		model.put("airport_code",airportCode);
+		// It's all the same airport.  So just grab the airport name from
+		// the first record and display it once.
+		if (airlines.size() > 1)
+		    model.put("airport_name",airlines.get(0).getAirport().getName());
 		model.put("airlines",airlines);
 		
 		return new ModelAndView(model, "lookup.airport.result.mustache");

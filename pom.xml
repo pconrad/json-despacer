@@ -7,15 +7,13 @@
         <version>7</version>
     </parent>
 
-    
-    
-    <groupId>com.sparkjava</groupId>
-    <artifactId>spark-template-mustache</artifactId>
+    <groupId>org.pconrad.corgis</groupId>
+    <artifactId>CorgisAirlinesWebapp</artifactId>
     <packaging>jar</packaging>
-    <version>2.4-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
-    <name>spark-template-mustache</name>
-    <url>http://www.sparkjava.com</url>
+    <name>corgis-airlines-webapp</name>
+    <url>https://pconrad-webapps.github.io</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

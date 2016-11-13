@@ -164,13 +164,26 @@ public class AirlineDB {
 	    return null;			
 	}
     }
+
+    public AirlinePlus jsonToAirlinePlus(String json) {
+	try {
+	    JSONObject jsonObject = (JSONObject) parser.parse(json);
+	    AirlinePlus a = new AirlinePlus(jsonObject);
+	    return a;
+	} catch (ParseException pe) {
+	    pe.printStackTrace();
+	    return null;			
+	}
+    }
+
+
     
-    public ArrayList<Airline> findByAirportCode(String airportCode) {
-	ArrayList<Airline> airlineList = new ArrayList<Airline>();
+    public ArrayList<AirlinePlus> findByAirportCode(String airportCode) {
+	ArrayList<AirlinePlus> airlineList = new ArrayList<AirlinePlus>();
 	// Block<Document> = lambda to "do something with a document"
 
 	Block<Document> addAirlineRecord = (d) -> {
-	    Airline a = jsonToAirline(d.toJson());
+	    AirlinePlus a = jsonToAirlinePlus(d.toJson());
 	    if (a!=null) {airlineList.add(a);}
 	};
 	collection
@@ -203,7 +216,7 @@ public class AirlineDB {
 	if (args.length > 0) { airportCode = args[0]; }
 	System.out.println("Printing records with airportCode=" + airportCode);
 
-	ArrayList<Airline> airlines = airlineDB.findByAirportCode(airportCode);
+	ArrayList<AirlinePlus> airlines = airlineDB.findByAirportCode(airportCode);
 	airlines.stream().forEach( (a) -> System.out.println(a) );
 	
     }
