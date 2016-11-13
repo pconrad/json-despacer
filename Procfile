@@ -1,1 +1,2 @@
-web:    java -jar target/spark-template-mustache-2.4-SNAPSHOT.jar
+web:    java -jar target/CorgisAirlinesWebapp-1.0-SNAPSHOT.jar
+
