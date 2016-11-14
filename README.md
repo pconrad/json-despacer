@@ -18,22 +18,6 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
 
 # How to adapt this to another Corgis dataset
 
-1. Edit the file [download-json.sh](download-json.sh) and change the URL to download from,
-   and the name of the dataset from `graduates.json` to whatever dataset you are downloading.
-
-   For example, instead of:
-
-   ```
-   wget "https://think.cs.vt.edu/corgis/json/graduates/graduates.json?forcedownload=1" \
-     -O graduates.json
-   ```
-
-   You might have:
-
-   ```
-   wget "https://think.cs.vt.edu/corgis/json/food_access/food_access.json?forcedownload=1" \
-        -O food-access.json
-   ```
 
 2. To download and install the `.jar` for the library, run the `./install-corgis-jar.sh`
     script, passing in the name of the library as a parameter.
@@ -166,10 +150,36 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
     . env.sh
     ```
 
-12. Upload the data from the .json file to the MongoDB server using a command such as
+
+12. Edit the file [download-json.sh](download-json.sh) and change the URL to download from,
+   and the name of the dataset from `graduates.json` to whatever dataset you are downloading.
+
+   For example, instead of:
+
+   ```
+   wget "https://think.cs.vt.edu/corgis/json/graduates/graduates.json?forcedownload=1" \
+     -O graduates.json
+   ```
+
+   You might have:
+
+   ```
+   wget "https://think.cs.vt.edu/corgis/json/food_access/food_access.json?forcedownload=1" \
+        -O food-access.json
+   ```
+
+
+13. To remove spaces from keys, despace the JSON file by running the despace program:
+
+   ```
+   java -cp target/CorgisGraduatesWebapp-1.0-SNAPSHOT.jar org.pconrad.corgis.utilities.DespaceJSON graduates.json graduates.nospace.json
+   ```
+
+
+14. Upload the data from the .json file to the MongoDB server using a command such as
     the following.  Change the name of the collection and json file as needed:
 
     ```
-    java -cp target/CorgisGraduatesWebapp-1.0-SNAPSHOT.jar org.pconrad.corgis.utilities.UploadToMongoDB corgis graduates graduates.json
+    java -cp target/CorgisGraduatesWebapp-1.0-SNAPSHOT.jar org.pconrad.corgis.utilities.UploadToMongoDB corgis graduates graduates.nospace.json
     ```
 
