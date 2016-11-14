@@ -81,7 +81,7 @@ public class CorgisGraduatesWebapp {
 	    (rq, rs) ->
 	    {
 		Map model = new HashMap();
-		String majorCodeAsString = rq.queryParams("majorcode"); // get value from form
+		String majorCodeAsString = rq.queryParams("major_code"); // get value from form
 		int majorCodeAsInt = 0;
 		try {
 		    majorCodeAsInt = Integer.parseInt(majorCodeAsString);
@@ -93,7 +93,11 @@ public class CorgisGraduatesWebapp {
 		ArrayList<GradMajorPlus> majors
 		    = graduatesDB.findByMajorCode(majorCodeAsInt);
 
-		model.put("majorcode",majorCodeAsString);
+		model.put("major_code",majorCodeAsString);
+
+		if (majors.size() > 1)
+		    model.put("major_name",majors.get(0).getMajorInformation().getMajor());
+
 		model.put("majors",majors);
 		
 		return new ModelAndView(model, "lookup.majorcode.result.mustache");

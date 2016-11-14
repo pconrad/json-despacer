@@ -30,6 +30,7 @@ import org.json.simple.parser.ParseException;
 import org.pconrad.utilities.EnvVars;
 
 import org.pconrad.corgis.utilities.CorgisDB;
+import org.pconrad.corgis.utilities.RespaceJSON;
 
 public class GraduatesDB extends CorgisDB<GradMajorPlus> {
 
@@ -81,12 +82,21 @@ public class GraduatesDB extends CorgisDB<GradMajorPlus> {
 	
 	ArrayList<GradMajorPlus> elementList = new ArrayList<GradMajorPlus>();
 	Block<Document> addElem = (d) -> {
-	    GradMajorPlus e = this.jsonToElement(d.toJson());
+	    String jsonWithUnderscores = d.toJson();
+	    String jsonWithSpaces ="";
+	    try {
+		jsonWithSpaces = new RespaceJSON(jsonWithUnderscores).result();
+	    } catch (IOException ioe) {
+		ioe.printStackTrace();
+	    }
+	    GradMajorPlus e = this.jsonToElement(jsonWithSpaces);
 	    if (e!=null) {elementList.add(e);}
 	};
+	System.out.println("majorCode=" + majorCode);
 	this.getCollection()
-	    .find(eq("majorInformation.majorCode", majorCode))
+	    .find(eq("Major Information.Major Code", majorCode))
 	    .forEach( addElem );
+	System.out.println("elementList=" + elementList);
 	return elementList;
     }
 
@@ -113,7 +123,7 @@ public class GraduatesDB extends CorgisDB<GradMajorPlus> {
 			   "graduates");
 
 	// see https://think.cs.vt.edu/corgis/json/graduates/graduates.html
-	int majorCode = 3419; 
+	int majorCode = 2415; 
 	if (args.length > 0) {
 	    try {
 		majorCode = Integer.parseInt(args[0]);
