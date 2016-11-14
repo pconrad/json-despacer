@@ -1,2 +1,2 @@
-web:    java -jar target/CorgisAirlinesWebapp-1.0-SNAPSHOT.jar
+web:    java -jar target/CorgisGraduatesWebapp-1.0-SNAPSHOT.jar
 
