@@ -40,14 +40,22 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
     For example:
 
     ```
-    ./install-corgis-jar.sh food-access
+    ./install-corgis-jar.sh food_access
     ```
 
     After you do, check the repo directory.  You should see that there is a new
     subdirectory for your library, as shown here:
 
-    
+    ```
+    $ ls repo/edu/vt/cs/corgis/
+    food_access   graduates
+    $
+    ```
 
+    You will want need to `git add` all of the files in the new subdirectory
+    (in this example `food_access`) into the github repository.  This makes it available
+    to Maven when you push the repository to Heroku.
+    You will need to use `git add -f ` to add the `.jar` file in that directory.
 
 
 
