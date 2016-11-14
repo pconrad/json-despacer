@@ -1,4 +1,4 @@
-package org.pconrad.corgis.airlines.model;
+package org.pconrad.corgis.utilities;
 
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
@@ -10,7 +10,7 @@ import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 
 
-import corgis.airlines.domain.Airline;
+import corgis.airlines.domain.Graduate;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

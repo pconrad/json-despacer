@@ -1,4 +1,4 @@
-package org.pconrad.corgis.airlines.demos;
+package org.pconrad.corgis.utilities;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -50,9 +50,17 @@ public class UploadToMongoDB {
     }
 
 
-
     public static void main(String[] args) {
 
+	if (args.length !=3) {
+	    System.out.println("Usage: java UploadToMongoDB dbname collection jsonfile");
+	    System.out.println("Example: java UploadToMongoDB corgis airlines airlines.json");
+	    System.exit(1);
+	}
+
+	String dbName = args[0];
+	String collectionName = args[1];
+	String jsonFileName = args[2];
 	
 	HashMap<String,String> envVars =
 	    EnvVars.getNeededEnvVars(new String []{ "MONGO_DB_USER",
@@ -65,11 +73,11 @@ public class UploadToMongoDB {
 
 	MongoClientURI connectionString = new MongoClientURI(uriString);
 	MongoClient mongoClient = new MongoClient(connectionString);
-	MongoDatabase database = mongoClient.getDatabase("corgis");
-	MongoCollection<Document> collection = database.getCollection("airlines");
+	MongoDatabase database = mongoClient.getDatabase(dbName);
+	MongoCollection<Document> collection = database.getCollection(collectionName);
 
 	System.out.println("Before upload collection.count=" + collection.count());	
-	uploadJson("airlines.json",collection);
+	uploadJson(jsonFileName,collection);
 	System.out.println("After upload collection.count=" + collection.count());		
     }
 

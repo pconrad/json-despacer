@@ -15,17 +15,16 @@
  * limitations under the License.
  */
 
-package org.pconrad.corgis.airlines.webapp;
+package org.pconrad.corgis.graduates.webapp;
+import corgis.airlines.domain.GradMajor;
 
-import corgis.airlines.domain.Airline;
-
+import org.pconrad.corgis.graduates.model.GraduatesDB;
+import org.pconrad.corgis.graduates.model.GradMajorPlus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.pconrad.corgis.airlines.model.AirlineDB;
-import org.pconrad.corgis.airlines.model.AirlinePlus;
 import org.pconrad.utilities.EnvVars;
 import org.pconrad.webapps.sparkjava.MustacheTemplateEngine;
 
@@ -37,7 +36,7 @@ import static spark.Spark.get;
 
 
 /**
- CorgisAirlinesWebapp
+ CorgisGraduatesWebapp
 
  Based on Mustache template engine example by Sam Pullara
  
@@ -45,7 +44,7 @@ import static spark.Spark.get;
  @author Sam Pullara https://github.com/spullara
  */
 
-public class CorgisAirlinesWebapp {
+public class CorgisGraduatesWebapp {
     
     public static void main(String[] args) {
 	Spark.staticFileLocation("/static");
@@ -61,10 +60,12 @@ public class CorgisAirlinesWebapp {
 					    "MONGO_DB_PASSWORD",
 					    "MONGO_DB_URI"});
 
-	AirlineDB airlineDB = 
-	    new AirlineDB(envVars.get("MONGO_DB_URI"),
+	GraduatesDB graduatesDB = 
+	    new GraduatesDB(envVars.get("MONGO_DB_URI"),
 			  envVars.get("MONGO_DB_USER"),
-			  envVars.get("MONGO_DB_PASSWORD"));
+			  envVars.get("MONGO_DB_PASSWORD"),
+			  "corgis",
+			  "graduates");
 
 	final Map nullMap = new HashMap();
 
@@ -72,25 +73,30 @@ public class CorgisAirlinesWebapp {
 	    (rq, rs) ->
 	    new ModelAndView(nullMap, "home.mustache"), new MustacheTemplateEngine());
 	
-        get("/lookup/airport",
+        get("/lookup/majorcode",
 	    (rq, rs) ->
-	    new ModelAndView(nullMap, "lookup.airport.mustache"), new MustacheTemplateEngine());
+	    new ModelAndView(nullMap, "lookup.majorcode.mustache"), new MustacheTemplateEngine());
 
-	get("/lookup/airport/result",
+	get("/lookup/majorcode/result",
 	    (rq, rs) ->
 	    {
 		Map model = new HashMap();
-		String airportCode = rq.queryParams("airport_code"); // get value from form
-		ArrayList<AirlinePlus> airlines = airlineDB.findByAirportCode(airportCode);
-		// System.out.println("airlines=" + airlines);
-		model.put("airport_code",airportCode);
-		// It's all the same airport.  So just grab the airport name from
-		// the first record and display it once.
-		if (airlines.size() > 1)
-		    model.put("airport_name",airlines.get(0).getAirport().getName());
-		model.put("airlines",airlines);
+		String majorCodeAsString = rq.queryParams("majorcode"); // get value from form
+		int majorCodeAsInt = 0
+		try {
+		    majorCodeAsInt = Integer.parseInt(majorCodeAsString);
+		} catch (NumberFormatException nfe) {
+		    model.put("error","The majorcode entered was invalid:" + majorCodeAsString);
+		    return new ModelAndView(model, "lookup.majorcode.result.mustache");
+		}
+		    
+		ArrayList<GradMajorPlus> majors
+		    = graduateDB.findByMajorCode(majorCodeAsInt);
+
+		model.put("majorcode",majorCode);
+		model.put("majors",majors);
 		
-		return new ModelAndView(model, "lookup.airport.result.mustache");
+		return new ModelAndView(model, "lookup.majorcode.result.mustache");
 	    },
 	    new MustacheTemplateEngine()
 	    );
