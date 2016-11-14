@@ -1,9 +1,4 @@
-package org.pconrad.corgis.utilities;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
+package org.pconrad.utilities.jsondespacer;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,29 +10,27 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.bson.Document;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import org.pconrad.utilities.EnvVars;
 
+import java.io.StringWriter;
 
-import java.io.PrintWriter;
+public class RespaceJSON {
 
-public class DespaceJSON {
+    private StringWriter sw = null;
 
-    private PrintWriter pw = null;
-
-    public DespaceJSON(String infile, String outfile) throws IOException {
-       this.pw = new PrintWriter(outfile, "UTF-8");
-       readJson(infile);
-       this.pw.close();
+    public RespaceJSON(String input) throws IOException {
+       this.sw = new StringWriter();
+       readJson(input);
     }
-    
+
+    public String result() {
+	return sw.toString();
+    }
 
     public  void processObj(Object obj)  throws IOException  {
 	if (obj instanceof JSONArray) {
@@ -52,47 +45,47 @@ public class DespaceJSON {
     }
 
     public  void processJSONArray(JSONArray jsonArray) throws IOException {
-	pw.println("[");
+	sw.write("[");
 	boolean first=true;
 	for (Object o : jsonArray) {
-	    if (first) {first = false; } else {pw.println(",");}
+	    if (first) {first = false; } else {sw.write(",");}
 	    processObj(o);	    
 	}
-	pw.println("]");
+	sw.write("]\n");
     }
 
     public  void processJSONObject(JSONObject jsonObject)  throws IOException  {
-	pw.print("{");
+	sw.write("{");
 	boolean first=true;
 	for ( Object ko : jsonObject.keySet()) {
 	    String key = (String) ko;
-	    if (first) {first = false; } else {pw.print(",");}
+	    if (first) {first = false; } else {sw.write(",");}
 	    Object o = jsonObject.get(key);
-	    pw.print("\"" + key.replaceAll(" ","_") + "\" : ");
+	    sw.write("\"" + key.replaceAll("_"," ") + "\" : ");
 	    processObj(o);
 	}
-	pw.print("}");			   
+	sw.write("}\n");			   
     }
 
     public  void processJSONValue(JSONValue jsonValue)  throws IOException  {
-	pw.print(jsonValue);			   
+	sw.write(jsonValue.toString());			   
     }
 
     public  void processPlainObject(Object o)  throws IOException  {
 	if (o instanceof String) {
-	    pw.print("\"" + o + "\"");
+	    sw.write("\"" + o + "\"");
 	} else {
-	    pw.print(o);
+	    sw.write(o.toString());
 	}
     }
     
-    public  void readJson(String fileName)  throws IOException  {
+    public  void readJson(String input)  throws IOException  {
 
 	JSONParser parser = new JSONParser();
 
 	try {
 
-	    Object obj = parser.parse(new FileReader(fileName));
+	    Object obj = parser.parse(input);
 	    processObj(obj);
 	    
 	} catch (FileNotFoundException e) {
@@ -104,25 +97,5 @@ public class DespaceJSON {
     }
 
 
-    public static void main(String[] args) {
-
-	if (args.length !=2) {
-	    System.out.println("Usage: java jsonin jsonout");
-	    System.out.println("Example: java graduates.json graduates-nospace.json");
-	    System.exit(1);
-	}
-
-	String jsonInFileName = args[0];
-	String jsonOutFileName = args[1];
-
-
-
-	try{
-	    DespaceJSON dj = new DespaceJSON(jsonInFileName,jsonOutFileName);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-
-    }    
 }
 

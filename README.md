@@ -12,5 +12,6 @@ mvn package
 To run:
 
 ```
-java -jar target/
+java -jar target/json-despacer-1.0-SNAPSHOT.jar input.json output.json
 ```
+
