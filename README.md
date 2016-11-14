@@ -153,4 +153,23 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
 9. Edit this README to replace the command to run the app.
 
 
+10. If you don't already have a MongoDB database set up called `corgis`, and a
+    document set up for your data with the same name as the dataset (e.g. `airlines`,
+    `graduates`, `foodaccess`), then set that up now.  Consult
+    the [pconrad.webapps MongoDB](https://pconrad-webapps.github.io/topics/mongodb)
+    documentation as needed.
+
+11. Copy from the `env.sh.EXAMPLE` to `env.sh` and edit the values inside.
+    Then use this shell command to define the needed environment variables:
+
+    ```
+    . env.sh
+    ```
+
+12. Upload the data from the .json file to the MongoDB server using a command such as
+    the following.  Change the name of the collection and json file as needed:
+
+    ```
+    java -cp target/CorgisGraduatesWebapp-1.0-SNAPSHOT.jar org.pconrad.corgis.utilities.UploadToMongoDB corgis graduates graduates.json
+    ```
 
