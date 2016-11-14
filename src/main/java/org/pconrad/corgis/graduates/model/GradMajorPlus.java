@@ -1,9 +1,11 @@
-package org.pconrad.corgis.airlines.model;
+package org.pconrad.corgis.graduates.model;
 
-import corgis.airlines.domain.GradMajor;
+import corgis.graduates.domain.GradMajor;
 import org.json.simple.JSONObject;
 
-public class GradMajorPlus extends GradMajor {
+
+public class GradMajorPlus
+    extends GradMajor {
     
     public GradMajorPlus (JSONObject jsonObject) {
 	super(jsonObject);

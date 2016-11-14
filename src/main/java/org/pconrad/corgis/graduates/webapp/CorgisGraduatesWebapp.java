@@ -16,7 +16,7 @@
  */
 
 package org.pconrad.corgis.graduates.webapp;
-import corgis.airlines.domain.GradMajor;
+import corgis.graduates.domain.GradMajor;
 
 import org.pconrad.corgis.graduates.model.GraduatesDB;
 import org.pconrad.corgis.graduates.model.GradMajorPlus;
@@ -82,7 +82,7 @@ public class CorgisGraduatesWebapp {
 	    {
 		Map model = new HashMap();
 		String majorCodeAsString = rq.queryParams("majorcode"); // get value from form
-		int majorCodeAsInt = 0
+		int majorCodeAsInt = 0;
 		try {
 		    majorCodeAsInt = Integer.parseInt(majorCodeAsString);
 		} catch (NumberFormatException nfe) {
@@ -91,9 +91,9 @@ public class CorgisGraduatesWebapp {
 		}
 		    
 		ArrayList<GradMajorPlus> majors
-		    = graduateDB.findByMajorCode(majorCodeAsInt);
+		    = graduatesDB.findByMajorCode(majorCodeAsInt);
 
-		model.put("majorcode",majorCode);
+		model.put("majorcode",majorCodeAsString);
 		model.put("majors",majors);
 		
 		return new ModelAndView(model, "lookup.majorcode.result.mustache");

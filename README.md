@@ -10,7 +10,8 @@ A demo of:
 
 To build, use `mvn package`
 
-To run, use `java -jar target/spark-template-mustache-2.4-SNAPSHOT.jar`
+To run, use `java -jar target/CorgisGraduatesWebapp-1.0-SNAPSHOT.jar`
+
 
 Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
 
@@ -57,9 +58,36 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
     to Maven when you push the repository to Heroku.
     You will need to use `git add -f ` to add the `.jar` file in that directory.
 
+3. Change the model files under  `src/main/java/org/pconrad/corgis/graduates` by
+   renaming the `graduates` package, then finding the files under `models`, both
+   `GraduateDB.java` and `GradMajorPlus.java`.   You will need to consult the
+   JSON documentation and the Javadoc for the dataset you are using to determine what fields
+   are accessible.
+
+4. Under `src/main/java/org/pconrad/corgis/graduates`, locate the file
+    `webapp/CorgisGraduatesWebapp.java`. This is the "controller" in your application.
+    Rename both the package, file, and class
+    as needed, and edit the contents.  You'll want to change the routes to ones that
+    make sense for your application.
+
+    For example, you might end up with:
+
+    ```
+    src/main/java/org/pconrad/corgis/food_access/webapp/CorgisFoodAccessWebapp.java
+    ```
+
+    You will need to coordinate the changes here with changes to the model and view.
 
 
-7. Edit the pom.xml to change the dependency for the corgis jar file needed for
+5. To change the "View", change the template files in src/main/resources/templates as follows:
+
+    * In `nav.mustache`, change the routes to ones that match the ones you put in the
+        new version of `CorgisGraduatesWebapp.java`.
+    * Change the name and contents of files such as `lookup.majorcode.mustache` and
+      `lookup.majorcode.result.mustache` to ones that make sense for your application.
+    * Coordinate the content with the contents of tje
+
+6. Edit the pom.xml to change the dependency for the corgis jar file needed for
    the library you are accessing.  For example, instead of:
 
     ```xml
@@ -81,7 +109,7 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
       </dependency>
     ```
 
-8. Also, in the pom.xml, change the name of:
+7. Also, in the pom.xml, change the name of:
 
     * The `.jar` file you are creating
     * The main class that jar file will execute
@@ -108,7 +136,7 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
     ```
 
 
-9. Edit the `Procfile` to specify the name of the `.jar` file.
+8. Edit the `Procfile` to specify the name of the `.jar` file.
 
    For example, instead of:
 
@@ -122,35 +150,7 @@ Demo on Heroku at: https://sparkjava-corgis-graduates-demo.herokuapp.com/
    web:    java -jar target/CorgisFoodAccessWebapp-1.0-SNAPSHOT.jar
    ```
 
+9. Edit this README to replace the command to run the app.
 
 
-
-# JSON documentation
-
-The JSON API used here is json-simple.
-
-It appears that the current version of this in found in the following repo, but I'm not 100% confident
-this is the authoritative source:
-
-* https://github.com/fangyidong/json-simple
-
-
-Javadoc for it can be found at several places, though again it isn't clear which, if any, is an authoritative
-source; these appear to be volunteer efforts that could disappear at any time:
-
-* http://alex-public-doc.s3.amazonaws.com/json_simple-1.1/index.html
-* http://juliusdavies.ca/json-simple-1.1.1-javadocs/index.html?overview-summary.html
-
-# Test of Corgis ReadJson
-
-This sequence of commands:
-
-```
-./install-airlines-json.sh
-./install-airlines.sh
-mvn package
-java -cp target/spark-template-mustache-2.4-SNAPSHOT.jar org.pconrad.corgis.airlines.demos.ReadJson
-
-java -cp target/spark-template-mustache-2.4-SNAPSHOT.jar org.pconrad.corgis.airlines.model.AirlineDB
-```
 
