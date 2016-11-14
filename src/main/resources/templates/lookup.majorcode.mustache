@@ -1,0 +1,20 @@
+<!DOCTYPE html>  <!-- -*- mode: html -*- -->
+<html>
+{{>head}}
+<title></title>
+<body>
+{{>nav}}
+
+<h1>Lookup by Major Code</h1>
+
+  <p>Enter a major code and click "submit" to see a list of matching records</p>
+
+  <form action="/lookup/majorcode/result">
+    Major Code:<br>
+    <input type="text" name="major_code" value="2415">
+    <input type="submit" value="Submit">
+  </form>
+
+{{>footer}}
+</body>
+</html>
