@@ -13,14 +13,21 @@ div.footer {
 
 /* Sticky footer styles from http://getbootstrap.com/examples/sticky-footer-navbar/
 -------------------------------------------------- */
+
 html {
   position: relative;
   min-height: 100%;
 }
+
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    padding-left:10px;
+    padding-right:10px;
 }
+
+
+
 .footer {
   position: absolute;
   bottom: 0;
